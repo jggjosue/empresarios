@@ -9,7 +9,7 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
     { name: 'Inicio', href: '#aboutus-section', current: false },
     //{ name: 'Membresía', href: '#membership-section', current: false },
-    { name: 'Cupones', href: '#blog-section', current: false },
+    //{ name: 'Cupones', href: '#blog-section', current: false },
     //{ name: 'Preguntas', href: '#faq-section', current: false },
     { name: 'Marcas', href: '#marcas-section', current: false },
     //{ name: 'Servicios', href: '#services-section', current: false },
