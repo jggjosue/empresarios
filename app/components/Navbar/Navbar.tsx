@@ -13,13 +13,9 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
-    { name: 'Inicio', href: '#aboutus-section', current: false },
-    //{ name: 'Membresía', href: '#membership-section', current: false },
-    //{ name: 'Cupones', href: '#blog-section', current: false },
-    //{ name: 'Preguntas', href: '#faq-section', current: false },
-    { name: 'Marcas', href: '#marcas-section', current: false },
-    //{ name: 'Blog', href: '#blog-section', current: false },
-    //{ name: 'Testimonial', href: '#testimonial-section', current: false },
+    { name: 'Inicio', href: '/', current: false },
+    { name: 'Marcas', href: '/marcas', current: false },
+    { name: 'Perfil', href: '/perfil', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -35,11 +31,11 @@ const Navbar = () => {
             <>
                 <div className="mx-auto max-w-7xl p-3 md:p-4 lg:px-8">
                     <div className="relative flex h-12 sm:h-20 items-center">
-                        <div className="flex flex-1 items-center sm:justify-between">
+                        <div className="flex flex-1 items-center justify-between">
 
                             {/* LOGO */}
 
-                            <div className="flex flex-shrink-0 items-center border-right">
+                            <div className="flex flex-shrink-0 items-center">
                                 <Link href="/" className='text-2xl sm:text-4xl font-semibold text-black'>
                                     Empresarios
                                 </Link>
@@ -47,8 +43,8 @@ const Navbar = () => {
 
                             {/* LINKS */}
 
-                            <div className="hidden lg:flex items-center border-right ">
-                                <div className="flex justify-end space-x-4">
+                            <div className="hidden lg:flex items-center">
+                                <div className="flex space-x-4">
                                     {navigation.map((item) => (
                                         <Link
                                             key={item.name}
@@ -65,28 +61,27 @@ const Navbar = () => {
                                 </div>
 
                             </div>
-                            {/* <button className='hidden lg:flex justify-end text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Contact us</button> */}
-                            {
-                                /**
-                                 * <Contactusform />
-                                 */
-                            }
+                            
+                            <div className='hidden lg:flex'>
+                                <button className='text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Contact us</button>
+                            </div>
                         </div>
 
 
                         {/* DRAWER FOR MOBILE VIEW */}
 
-                        {/* DRAWER ICON */}
-
+                        {/* DRAWER ICON
                         <div className='block lg:hidden'>
                             <Bars3Icon className="block h-6 w-6" aria-hidden="true" onClick={() => setIsOpen(true)} />
                         </div>
+                        */
+                        }
 
                         {/* DRAWER LINKS DATA */}
-
                         <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
                             <Drawerdata />
                         </Drawer>
+
 
                     </div>
                 </div>

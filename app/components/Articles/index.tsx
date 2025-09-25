@@ -41,7 +41,11 @@ import { DataSI } from '../../data/DataSI';
 import { DataSK } from '../../data/DataSK';
 import { DataUA } from '../../data/DataUA';
 import { DataUS } from '../../data/DataUS';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'; // Import the heart icons
+import { useCouponStore, Coupon } from '../../store/couponStore';
+import Pagination from '../Pagination'; // Import the Pagination component
 
+const ITEMS_PER_PAGE = 20;
 const BASE_URL = "https://api.awin.com/publisher";
 const asin = 'B07ZQS94VJ';
 const publisherId = '1533377';
@@ -52,53 +56,9 @@ const advertiserIds = [
         1478, 2495, 16062, 12428, 13470, 18822, 24958, 37532, 42927, 32475, 27634, 22235, 23202, 24408, 21407, 28349, 30171, 31335, 31499, 31471, 53679, 67066, 32633, 37054, 51935, 40342, 40512, 47069, 62441, 17207, 32471, 32461, 54347, 61929, 64852, 64216, 65968, 67702, 32211, 20039, 58169, 24757, 21206, 15184, 13054, 7138, 18823, 19765, 20134, 22267, 22343, 31077, 24996, 25243, 25686, 26997, 29703, 23548, 49545, 51379, 51381, 52015, 52405, 53957, 55351, 31740, 32531, 33073, 37352, 45779, 34901, 37052, 37048, 39732, 39736, 60481, 61325, 65356, 65758, 65986, 68578, 69478, 70208,55613, 72139, 53273, 22362, 27399, 26577, 24802, 12301, 15245, 15292, 15596, 31101, 31313, 32219, 32585, 34679, 34579, 26521, 28621, 28831, 20130, 19770, 21465, 18808, 20801, 23037, 23249, 36900, 37520, 50397, 53159, 70500, 70420, 58479, 71375, 6825, 64248, 70058, 62463, 15380, 16673, 2694, 28849, 27568, 29483, 29613, 29999, 22293, 23696, 44387, 38896, 39814, 22427, 23275, 24005, 24111, 25940, 27143, 27283, 27636, 30513, 30995, 47151, 50221, 51377, 4282, 6804, 53171, 44635, 26560, 22751, 59925, 60347, 66760, 69222, 69384, 12430, 35435, 46483, 46377, 48973, 50991, 33127, 37952, 39294, 42800, 57461, 161, 29569, 29727, 28629, 38660, 32565, 50533, 1552, 24374, 15371, 18715, 10573, 12426, 23294, 31413, 69996, 24273, 49561, 53891, 61043, 62187, 69560, 44733, 53271, 36302, 27227, 19198
 ];
 
-interface Response {
-    data: [
-        {
-            promotionId: number,
-            type: string,
-            advertiser: {
-                id: number,
-                name: string,
-                joined: boolean
-            },
-            title: string,
-            description: string,
-            terms: string,
-            startDate: string,
-            endDate: string,
-            url: string,
-            urlTracking: string,
-            dateAdded: string,
-            campaign: string,
-            regions: {
-                all: boolean,
-                list: [
-                    {
-                        name: string,
-                        countryCode: string
-                    }
-                ]
-            },
-            voucher: {
-                code: string,
-                exclusive: boolean,
-                attributable: boolean
-            }
-        }
-    ],
-    pagination: {
-        page: number,
-        pageSize: number,
-        total: number
-    }
-}
-
 const MultipleItems = () => {
     const [products, setProducts] = useState(DataAll); //[Response]);
-    const [election, setElection] = useState();
     const [country, setCountry] = useState([]);
-    const [isChecked, setIsChecked] = useState(false);
     const [search, setSearch] = useState('');
     const [copyCode, setCopyCode] = useState('COPIAR CÓDIGO');
     const [dataCode, setDataCode] = useState({
@@ -116,6 +76,8 @@ const MultipleItems = () => {
         },
     });
     let [isOpen, setIsOpen] = useState(false)
+    const { addCoupon, removeCoupon, isLiked } = useCouponStore();
+    const [currentPage, setCurrentPage] = useState(1);
 
     const parameters = {
         filters: {
@@ -162,17 +124,65 @@ const MultipleItems = () => {
     //getPromotions();
 
     const handleChange = (e:any) => {
-        setSearch(e.target.value)
+        setSearch(e.target.value);
+        setCurrentPage(1); // Reset to first page on search
     }
-
-    const handleOnChange = () => {
-        setIsChecked(!isChecked);
-    };
 
     const results = !search ? products: products.filter((data) => data.title.toLowerCase().includes(search.toLocaleLowerCase()))
 
+    // Pagination logic
+    const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const currentCoupons = results.slice(startIndex, endIndex);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        const section = document.getElementById('blog-section');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    const onClickDataCode = (value:any) => {
+        setDataCode({
+            title: value.title,
+            promotionId: value.promotionId,
+            description: value.description,
+            dateAdded: value.dateAdded,
+            endDate: value.endDate,
+            terms: value.terms,
+            type: value.type,
+            urlTracking:value.urlTracking,
+            image: `https://ui.awin.com/images/upload/merchant/profile/` + `${value?.advertiser?.id}` + '.png',
+            voucher: value.voucher
+        })
+        openModal()
+        onSaveLogEvent('brand', value.title)
+    };
+
+    const handleLikeClick = (event: React.MouseEvent, item: any) => {
+        event.stopPropagation(); // Prevent modal from opening
+        const coupon: Coupon = {
+            promotionId: item.promotionId,
+            title: item.title,
+            description: item.description,
+            advertiser: item.advertiser,
+            voucher: item.voucher,
+            urlTracking: item.urlTracking,
+            image: `https://ui.awin.com/images/upload/merchant/profile/${item?.advertiser?.id}.png`,
+        };
+
+        if (isLiked(coupon.promotionId)) {
+            removeCoupon(coupon.promotionId);
+        } else {
+            addCoupon(coupon);
+        }
+    };
+
     const onChangeOption = (value: any) => {
         setCountry(value);
+        setCurrentPage(1); // Reset to first page on country change
         onSaveLogEvent('country_name', value)
 
         switch (value) {
@@ -214,25 +224,6 @@ const MultipleItems = () => {
         }
     };
 
-    const onClickDataCode = (value:any) => {
-        setDataCode({
-            title: value.title,
-            promotionId: value.promotionId,
-            description: value.description,
-            dateAdded: value.dateAdded,
-            endDate: value.endDate,
-            terms: value.terms,
-            type: value.type,
-            urlTracking:value.urlTracking,
-            image: `https://ui.awin.com/images/upload/merchant/profile/` + `${value?.advertiser?.id}` + '.png',
-            voucher: value.voucher
-        })
-        if(dataCode.dateAdded.length > 0) {
-            openModal()
-            onSaveLogEvent('brand', value.title)
-        }
-    };
-
     const onSaveLogEvent = (params:any, value:any) => {
         logEvent(analytics!, params, {name: value});
     }
@@ -260,7 +251,7 @@ const MultipleItems = () => {
     return (
         <>
             <div className="bg-lightgrey py-8" id="blog-section">
-                <div className='mx-auto max-w-7xl sm:py-4 lg:px-8 '>
+                <div className='mx-auto max-w-7xl px-4 sm:py-4 lg:px-8 '>
 
                         {/** ¿Te encuentras viajando ó vas a tener un viaje? */}
                         <div className="text-center">
@@ -311,25 +302,6 @@ const MultipleItems = () => {
                             </select>
                         </div>
 
-                        {
-                            /**
-                             <div className="text-center">
-                            <div>
-                                <input
-                                type="checkbox"
-                                id="topping"
-                                name="topping"
-                                value="Paneer"
-                                checked={isChecked}
-                                onChange={handleOnChange}
-                                className='text-sm md:text-xl font-semibold hover:shadow-xl text-white border border-purple py-3 px-6 md:py-5 md:px-16 rounded-full'
-                                />
-                                Ahorro e inversiones
-                            </div>
-                        </div>
-                             */
-                        }
-
                         <div className='mx-auto max-w-2xl lg:max-w-7xl sm:py-4 lg:px-8'>
                             <form action="#" className="space-y-158">
                                 <div className="mx-auto max-w-4xl pt-5">
@@ -346,26 +318,42 @@ const MultipleItems = () => {
                         </div>
 
                     <div className='blog-section-data grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-16 gap-x-16 lg:gap-x-32'>
-                        {results.map((item: any, i: any) => (
-                            <div key={i} style={{cursor:'pointer'}} className='bg-white rounded-3xl mt-16 pt-10 pl-8 pb-10 pr-6 shadow-xl group' onClick={() => {onClickDataCode(item)}}>
-                                <div className='blog-section-data center'>
-                                    <Image
-                                        src={`https://ui.awin.com/images/upload/merchant/profile/` + `${item?.advertiser?.id}` + '.png'}
-                                        alt={item.description}
-                                        width={100}
-                                        height={85} />
+                        {currentCoupons.map((item: any, i: any) => {
+                            const liked = isLiked(item.promotionId);
+                            return (
+                                <div key={i} style={{cursor:'pointer'}} className='relative bg-white rounded-3xl mt-16 pt-10 pl-8 pb-10 pr-6 shadow-xl group' onClick={() => {onClickDataCode(item)}}>
+                                    <div className='blog-section-data center'>
+                                        <Image
+                                            src={`https://ui.awin.com/images/upload/merchant/profile/` + `${item?.advertiser?.id}` + '.png'}
+                                            alt={item.description}
+                                            width={100}
+                                            height={85} />
+                                    </div>
+                                    <br />
+                                    <hr style={{ color: "lightgrey" }} />
+                                    <br />
+                                    <h5 className='text-xl font-semibold text-black mb-5'>{item.title}</h5>
+                                    <button type="button" className='bg-navyblue w-full hover:text-white text-white border border-purple font-medium py-2 px-4 rounded-full'>
+                                        VER CÓDIGO
+                                    </button>
+                                    <div className="absolute top-4 right-4" onClick={(e) => handleLikeClick(e, item)}>
+                                        {liked ? (
+                                            <AiFillHeart className="w-6 h-6 text-blue-500" />
+                                        ) : (
+                                            <AiOutlineHeart className="w-6 h-6 text-gray-500" />
+                                        )}
+                                    </div>
                                 </div>
-                                <br />
-                                <hr style={{ color: "lightgrey" }} />
-                                <br />
-                                <h5 className='text-xl font-semibold text-black mb-5'>{item.title}</h5>
-                                <button type="button" className='bg-navyblue w-full hover:text-white text-white border border-purple font-medium py-2 px-4 rounded-full'>
-                                    VER CÓDIGO
-                                </button>
-                            </div>
-
-                        ))}
+                            )
+                        })}
                     </div>
+
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange} 
+                    />
+
                 </div>
             </div>
 

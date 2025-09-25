@@ -12,6 +12,7 @@ const navigation: NavigationItem[] = [
     //{ name: 'Cupones', href: '#blog-section', current: false },
     //{ name: 'Preguntas', href: '#faq-section', current: false },
     { name: 'Marcas', href: '#marcas-section', current: false },
+    { name: 'Favoritos', href: '#marcas-section', current: false },
     //{ name: 'Servicios', href: '#services-section', current: false },
     //{ name: 'Preguntas más frecuentes', href: '#faq-section', current: false },
     //{ name: 'Blog', href: '#blog-section', current: false },

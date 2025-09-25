@@ -34,9 +34,10 @@ export default function Home() {
       }
       
 
-      <Testimonials />
+
       {
         /**
+         * <Testimonials />
          * <Brands />
          * <Insta />
          */
