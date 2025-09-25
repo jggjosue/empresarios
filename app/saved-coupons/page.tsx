@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCouponStore } from '../store/couponStore';
-import { AiFillDelete } from 'react-icons/ai';
+import { FaTrash } from 'react-icons/fa';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -76,7 +76,7 @@ const SavedCouponsPage = () => {
                                         </button>
                                     </Link>
                                     <div className="absolute top-4 right-4 cursor-pointer" onClick={() => removeCoupon(coupon.promotionId)}>
-                                        <AiFillDelete className="w-6 h-6 text-red-500" />
+                                        <FaTrash className="w-6 h-6 text-red-500" />
                                     </div>
                                 </div>
                             ))}

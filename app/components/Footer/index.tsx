@@ -13,7 +13,7 @@ const products: ProductType[] = [
         id: 1,
         section: "Menu",
         link: [
-            'Inicio', 'Cupones', 'Marcas'
+            'Inicio', 'Marcas', 'Favoritos'
         ],
     }
 ]

@@ -41,7 +41,7 @@ import { DataSI } from '../../data/DataSI';
 import { DataSK } from '../../data/DataSK';
 import { DataUA } from '../../data/DataUA';
 import { DataUS } from '../../data/DataUS';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'; // Import the heart icons
+import { FaHeart, FaRegHeart, FaTimes } from 'react-icons/fa'; // Import icons
 import { useCouponStore, Coupon } from '../../store/couponStore';
 import Pagination from '../Pagination'; // Import the Pagination component
 
@@ -338,9 +338,9 @@ const MultipleItems = () => {
                                     </button>
                                     <div className="absolute top-4 right-4" onClick={(e) => handleLikeClick(e, item)}>
                                         {liked ? (
-                                            <AiFillHeart className="w-6 h-6 text-blue-500" />
+                                            <FaHeart className="w-6 h-6 text-blue-500" />
                                         ) : (
-                                            <AiOutlineHeart className="w-6 h-6 text-gray-500" />
+                                            <FaRegHeart className="w-6 h-6 text-gray-500" />
                                         )}
                                     </div>
                                 </div>
@@ -383,7 +383,13 @@ const MultipleItems = () => {
                                 leaveTo="opacity-0 scale-95"
                             >
                                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-
+                                    <button
+                                        type="button"
+                                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                                        onClick={closeModal}
+                                    >
+                                        <FaTimes className="w-6 h-6" />
+                                    </button>
                                     <div className="py-8 lg:py-8 px-4 mx-auto max-w-screen-md">
                                         <div className="flex flex-shrink-0 items-center justify-center">
                                             <Image

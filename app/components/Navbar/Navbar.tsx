@@ -15,6 +15,7 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
     { name: 'Inicio', href: '/', current: false },
     { name: 'Marcas', href: '/marcas', current: false },
+    { name: 'Favoritos', href: '/saved-coupons', current: false },
     { name: 'Perfil', href: '/perfil', current: false },
 ]
 
@@ -63,7 +64,7 @@ const Navbar = () => {
                             </div>
                             
                             <div className='hidden lg:flex'>
-                                <button className='text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Contact us</button>
+                                <button className='text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Log In</button>
                             </div>
                         </div>
 
