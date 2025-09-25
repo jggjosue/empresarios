@@ -35,10 +35,10 @@ const footer = () => {
                                 <Link href="https://www.magzin.us" target="_blank"> Magzin</Link> @2025 Todos los Derechos Reservados. </h3>
                         </div>
                         <div className="flex justify-center md:justify-end">
-                            <Link href="https://www.magzin.us/privacy">
+                            <Link href="https://www.magzin.us/privacy" target="_blank">
                                 <h3 className="text-offwhite pr-6">Política de Privacidad</h3>
                             </Link>
-                            <Link href="https://www.magzin.us/terms">
+                            <Link href="https://www.magzin.us/terms" target="_blank">
                                 <h3 className="text-offwhite pl-6 border-solid border-l border-footer">Términos & condiciones</h3>
                             </Link>
                         </div>

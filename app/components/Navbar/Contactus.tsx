@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { app } from '../../../firebase';
-import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
+import { getDatabase, ref, push, serverTimestamp, query, orderByChild, equalTo, get } from "firebase/database";
 
 const Contactusform = () => {
     let [isFormOpen, setIsFormOpen] = useState(false);
@@ -53,18 +53,28 @@ const Contactusform = () => {
         if (validate()) {
             try {
                 const registrationsRef = ref(db, 'registrations');
-                await push(registrationsRef, {
-                    name: inputValues.name,
-                    email: inputValues.email,
-                    message: inputValues.message,
-                    createdAt: serverTimestamp()
-                });
-                console.log("Formulario enviado y guardado en Firebase");
+                const emailQuery = query(registrationsRef, orderByChild('email'), equalTo(inputValues.email));
+
+                const snapshot = await get(emailQuery);
+
+                if (snapshot.exists()) {
+                    console.log("El correo electrónico ya está registrado.");
+                } else {
+                    await push(registrationsRef, {
+                        name: inputValues.name,
+                        email: inputValues.email,
+                        message: inputValues.message,
+                        createdAt: serverTimestamp()
+                    });
+                    console.log("Nuevo correo registrado en Firebase.");
+                }
+
                 closeFormModal();
                 openConfirmationModal();
+
             } catch (error) {
-                console.error("Error al guardar en Firebase:", error);
-                alert("Hubo un error al enviar tu comentario. Por favor, inténtalo de nuevo.");
+                console.error("Error al interactuar con Firebase:", error);
+                alert("Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo.");
             }
         }
     };

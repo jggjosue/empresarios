@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { DataAll } from '../data/DataAll';
 import Pagination from '../components/Pagination';
 
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 21;
 
 interface Advertiser {
     id: number;
