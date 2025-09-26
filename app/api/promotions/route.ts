@@ -6,9 +6,24 @@ const TOKEN = '282f55e0-d459-4e9e-817d-9cc3e456ae89';
 
 export async function POST(request: Request) {
     try {
-        // For this debugging step, we will send the simplest possible valid request body: an empty JSON object.
-        // This will help determine if the issue is with the filters or with the authentication/endpoint itself.
-        const requestBody = {};
+        const { regionCode } = await request.json();
+
+        // Build the filters object strictly according to the documentation
+        const filters: any = {
+            membership: 'joined',
+            status: 'active',
+            type: 'promotion' // Corrected type as per documentation
+        };
+
+        // Only add regionCodes filter if a specific region is selected
+        if (regionCode) {
+            filters.regionCodes = [regionCode];
+        }
+
+        const parameters = {
+            filters: filters
+            // Removed pagination to use API defaults and prevent errors
+        };
 
         const requestOptions = {
             method: 'POST',
@@ -16,7 +31,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${TOKEN}`
             },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(parameters)
         };
 
         const response = await fetch(`${BASE_URL}/${PUBLISHER_ID}/promotions`, requestOptions);

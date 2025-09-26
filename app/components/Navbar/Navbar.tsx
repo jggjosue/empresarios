@@ -64,7 +64,7 @@ const Navbar = () => {
                             </div>
                             
                             <div className='hidden lg:flex'>
-                                <button className='text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Log In</button>
+                                <button className='text-xl font-semibold bg-transparent py-4 px-6 lg:px-12 navbutton rounded-full hover:bg-navyblue hover:text-white'>Iniciar Sesión</button>
                             </div>
                         </div>
 

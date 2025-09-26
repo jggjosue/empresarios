@@ -4,41 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { app, getAnalytics, logEvent } from '../../../firebase';
 import { DataAll } from '../../data/DataAll';
-import { DataAR } from '../../data/DataAR';
-import { DataAT } from '../../data/DataAT';
-import { DataBE } from '../../data/DataBE';
-import { DataBG } from '../../data/DataBG';
-import { DataBR } from '../../data/DataBR';
-import { DataCA } from '../../data/DataCA';
-import { DataCH } from '../../data/DataCH';
-import { DataCL } from '../../data/DataCL';
-import { DataCO } from '../../data/DataCO';
-import { DataCZ } from '../../data/DataCZ';
-import { DataDE } from '../../data/DataDE';
-import { DataDK } from '../../data/DataDK';
-import { DataES } from '../../data/DataES';
-import { DataFI } from '../../data/DataFI';
-import { DataFR } from '../../data/DataFR';
-import { DataGB } from '../../data/DataGB';
-import { DataGR } from '../../data/DataGR';
-import { DataHR } from '../../data/DataHR';
-import { DataHU } from '../../data/DataHU';
-import { DataIE } from '../../data/DataIE';
-import { DataIT } from '../../data/DataIT';
-import { DataLT } from '../../data/DataLT';
-import { DataLV } from '../../data/DataLV';
-import { DataMX } from '../../data/DataMX';
-import { DataNL } from '../../data/DataNL';
-import { DataNO } from '../../data/DataNO';
-import { DataPE } from '../../data/DataPE';
-import { DataPL } from '../../data/DataPL';
-import { DataPT } from '../../data/DataPT';
-import { DataRO } from '../../data/DataRO';
-import { DataSE } from '../../data/DataSE';
-import { DataSI } from '../../data/DataSI';
-import { DataSK } from '../../data/DataSK';
-import { DataUA } from '../../data/DataUA';
-import { DataUS } from '../../data/DataUS';
 
 const BASE_URL = "https://api.awin.com/publisher";
 const asin = 'B07ZQS94VJ';
@@ -47,7 +12,411 @@ const token = '4d355160-2634-49e3-9892-d803a96c133a';
 const analytics = app.name && typeof window !== 'undefined' ? getAnalytics(app) : null;
 
 const advertiserIds = [
-        1478, 2495, 16062, 12428, 13470, 18822, 24958, 37532, 42927, 32475, 27634, 22235, 23202, 24408, 21407, 28349, 30171, 31335, 31499, 31471, 53679, 67066, 32633, 37054, 51935, 40342, 40512, 47069, 62441, 17207, 32471, 32461, 54347, 61929, 64852, 64216, 65968, 67702, 32211, 20039, 58169, 24757, 21206, 15184, 13054, 7138, 18823, 19765, 20134, 22267, 22343, 31077, 24996, 25243, 25686, 26997, 29703, 23548, 49545, 51379, 51381, 52015, 52405, 53957, 55351, 31740, 32531, 33073, 37352, 45779, 34901, 37052, 37048, 39732, 39736, 60481, 61325, 65356, 65758, 65986, 68578, 69478, 70208,55613, 72139, 53273, 22362, 27399, 26577, 24802, 12301, 15245, 15292, 15596, 31101, 31313, 32219, 32585, 34679, 34579, 26521, 28621, 28831, 20130, 19770, 21465, 18808, 20801, 23037, 23249, 36900, 37520, 50397, 53159, 70500, 70420, 58479, 71375, 6825, 64248, 70058, 62463, 15380, 16673, 2694, 28849, 27568, 29483, 29613, 29999, 22293, 23696, 44387, 38896, 39814, 22427, 23275, 24005, 24111, 25940, 27143, 27283, 27636, 30513, 30995, 47151, 50221, 51377, 4282, 6804, 53171, 44635, 26560, 22751, 59925, 60347, 66760, 69222, 69384, 12430, 35435, 46483, 46377, 48973, 50991, 33127, 37952, 39294, 42800, 57461, 161, 29569, 29727, 28629, 38660, 32565, 50533, 1552, 24374, 15371, 18715, 10573, 12426, 23294, 31413, 69996, 24273, 49561, 53891, 61043, 62187, 69560, 44733, 53271, 36302, 27227, 19198
+    33091,
+    1478,
+    2495,
+    5280,
+    16634,
+    16062,
+    18134,
+    18226,
+    19291,
+    19428,
+    17884,
+    18416,
+    17207,
+    18822,
+    12842,
+    12428,
+    13388,
+    8062,
+    7823,
+    7987,
+    10033,
+    20282,
+    20764,
+    20039,
+    22235,
+    22870,
+    25049,
+    26306,
+    22032,
+    29991,
+    30279,
+    32181,
+    32461,
+    32471,
+    32679,
+    34947,
+    33735,
+    37054,
+    27634,
+    27692,
+    39940,
+    40342,
+    38688,
+    42848,
+    42927,
+    58127,
+    53679,
+    53953,
+    51891,
+    52113,
+    52165,
+    48011,
+    46147,
+    46663,
+    51477,
+    53077,
+    56431,
+    30561,
+    30589,
+    23202,
+    24894,
+    28639,
+    31471,
+    31499,
+    31647,
+    96499,
+    61929,
+    62441,
+    85589,
+    85631,
+    85907,
+    72779,
+    71545,
+    71725,
+    80869,
+    80887,
+    67962,
+    68320,
+    67702,
+    65916,
+    65968,
+    66924,
+    87255,
+    17858,
+    28349,
+    30009,
+    30171,
+    53957,
+    54341,
+    55351,
+    55613,
+    61325,
+    65356,
+    60481,
+    60535,
+    39732,
+    45779,
+    45885,
+    43933,
+    42436,
+    46501,
+    53273,
+    48737,
+    52405,
+    52555,
+    70694,
+    65908,
+    65986,
+    70861,
+    68578,
+    970,
+    32531,
+    33073,
+    30479,
+    29871,
+    29945,
+    31077,
+    31207,
+    25686,
+    29703,
+    26313,
+    26551,
+    37052,
+    34901,
+    72139,
+    71525,
+    71537,
+    71551,
+    70208,
+    70282,
+    80893,
+    12715,
+    5810,
+    6299,
+    16229,
+    15517,
+    15528,
+    15184,
+    19473,
+    19619,
+    19652,
+    18746,
+    18823,
+    19856,
+    19862,
+    20134,
+    20433,
+    20983,
+    21507,
+    20563,
+    24546,
+    24562,
+    24841,
+    24915,
+    24996,
+    25137,
+    25243,
+    23846,
+    22326,
+    24281,
+    24369,
+    85597,
+    12301,
+    4009,
+    2671,
+    5807,
+    18708,
+    16635,
+    18119,
+    16561,
+    22362,
+    22405,
+    25136,
+    25301,
+    23249,
+    26354,
+    28699,
+    28831,
+    29081,
+    28567,
+    28621,
+    27399,
+    29881,
+    32585,
+    32677,
+    32757,
+    31982,
+    32897,
+    17780,
+    20801,
+    19770,
+    20130,
+    21354,
+    19492,
+    19653,
+    19293,
+    37520,
+    7970,
+    9242,
+    6170,
+    10748,
+    6825,
+    10949,
+    15596,
+    15245,
+    58479,
+    43005,
+    43015,
+    48281,
+    71517,
+    71543,
+    70897,
+    68532,
+    62027,
+    62998,
+    65912,
+    65924,
+    64016,
+    68324,
+    50397,
+    53561,
+    54171,
+    54343,
+    55393,
+    55799,
+    49407,
+    53159,
+    56057,
+    56091,
+    80865,
+    80875,
+    80973,
+    3497,
+    4028,
+    106599,
+    27568,
+    29407,
+    29483,
+    28705,
+    28987,
+    29999,
+    30149,
+    30175,
+    30995,
+    31295,
+    28385,
+    28637,
+    30513,
+    30553,
+    30595,
+    25386,
+    29613,
+    29647,
+    53081,
+    53171,
+    48435,
+    48443,
+    50079,
+    50221,
+    31581,
+    32301,
+    32733,
+    37952,
+    35435,
+    33127,
+    44387,
+    44635,
+    39814,
+    46377,
+    46483,
+    38896,
+    39094,
+    39294,
+    43649,
+    42800,
+    42915,
+    43247,
+    42416,
+    58637,
+    55543,
+    5809,
+    4282,
+    10946,
+    9996,
+    6988,
+    12430,
+    11640,
+    15132,
+    16110,
+    15380,
+    23275,
+    23337,
+    20558,
+    20746,
+    21408,
+    22293,
+    22613,
+    16673,
+    18765,
+    26812,
+    27143,
+    23696,
+    24005,
+    24111,
+    24164,
+    24288,
+    24358,
+    26560,
+    25940,
+    72059,
+    71535,
+    71547,
+    59925,
+    60347,
+    62629,
+    56765,
+    57461,
+    80881,
+    80889,
+    66760,
+    65906,
+    65918,
+    69222,
+    98661,
+    107814,
+    108000,
+    108116,
+    109172,
+    24529,
+    24726,
+    24751,
+    24143,
+    24359,
+    24374,
+    26259,
+    26401,
+    23626,
+    23294,
+    21822,
+    19859,
+    23098,
+    23185,
+    22403,
+    22446,
+    32379,
+    32569,
+    36302,
+    85607,
+    80863,
+    80873,
+    2943,
+    4377,
+    5805,
+    10522,
+    10573,
+    10582,
+    9995,
+    5812,
+    5968,
+    7274,
+    8036,
+    11552,
+    13027,
+    13492,
+    12426,
+    17123,
+    15571,
+    17559,
+    17662,
+    19198,
+    18879,
+    18136,
+    44733,
+    43511,
+    49439,
+    49561,
+    50293,
+    53271,
+    51475,
+    46275,
+    29105,
+    31413,
+    27227,
+    29569,
+    29729,
+    29829,
+    29887,
+    29953,
+    31980,
+    31984,
+    62481,
+    60543,
+    60685,
+    62685,
+    65760,
+    65910,
+    65922,
+    70066,
+    68228,
+    67144,
+    75294,
+    71419,
+    71515,
+    71527,
+    4032
 ];
 
 const MultipleItems = () => {
@@ -126,49 +495,6 @@ const MultipleItems = () => {
     };
 
     const results = !search ? products: products.filter((data) => data.title.toLowerCase().includes(search.toLocaleLowerCase()))
-
-    const onChangeOption = (value: any) => {
-        setCountry(value);
-        onSaveLogEvent('country_name', value)
-
-        switch (value) {
-            case 'AR': setProducts(DataAR); break;
-            case 'BR': setProducts(DataBR); break;
-            case 'CA': setProducts(DataCA); break;
-            case 'CL': setProducts(DataCL); break;
-            case 'CO': setProducts(DataCO); break;
-            case 'ES': setProducts(DataES); break;
-            case 'GB': setProducts(DataGB); break;
-            case 'MX': setProducts(DataMX); break;
-            case 'PE': setProducts(DataPE); break;
-            case 'US': setProducts(DataUS); break;
-            case 'AT': setProducts(DataAT); break;
-            case 'BE': setProducts(DataBE); break;
-            case 'BG': setProducts(DataBG); break;
-            case 'HR': setProducts(DataHR); break;
-            case 'CZ': setProducts(DataCZ); break;
-            case 'DK': setProducts(DataDK); break;
-            case 'FI': setProducts(DataFI); break;
-            case 'FR': setProducts(DataFR); break;
-            case 'DE': setProducts(DataDE); break;
-            case 'GR': setProducts(DataGR); break;
-            case 'HU': setProducts(DataHU); break;
-            case 'IE': setProducts(DataIE); break;
-            case 'IT': setProducts(DataIT); break;
-            case 'LV': setProducts(DataLV); break;
-            case 'LT': setProducts(DataLT); break;
-            case 'NL': setProducts(DataNL); break;
-            case 'NO': setProducts(DataNO); break;
-            case 'PL': setProducts(DataPL); break;
-            case 'PT': setProducts(DataPT); break;
-            case 'RO': setProducts(DataRO); break;
-            case 'SK': setProducts(DataSK); break;
-            case 'SI': setProducts(DataSI); break;
-            case 'SE': setProducts(DataSE); break;
-            case 'CH': setProducts(DataCH); break;
-            case 'UA': setProducts(DataUA); break;
-        }
-    };
 
     const onClickDataCode = (value:any) => {
         setDataCode({
