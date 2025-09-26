@@ -1,431 +1,13 @@
 "use client"
-import copy from 'copy-to-clipboard';
 import Image from "next/image";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { app, getAnalytics, logEvent } from '../../../firebase';
-import { DataAll } from '../../data/DataAll';
-
-const BASE_URL = "https://api.awin.com/publisher";
-const asin = 'B07ZQS94VJ';
-const publisherId = '1533377';
-const token = '4d355160-2634-49e3-9892-d803a96c133a';
 const analytics = app.name && typeof window !== 'undefined' ? getAnalytics(app) : null;
 
-const advertiserIds = [
-    33091,
-    1478,
-    2495,
-    5280,
-    16634,
-    16062,
-    18134,
-    18226,
-    19291,
-    19428,
-    17884,
-    18416,
-    17207,
-    18822,
-    12842,
-    12428,
-    13388,
-    8062,
-    7823,
-    7987,
-    10033,
-    20282,
-    20764,
-    20039,
-    22235,
-    22870,
-    25049,
-    26306,
-    22032,
-    29991,
-    30279,
-    32181,
-    32461,
-    32471,
-    32679,
-    34947,
-    33735,
-    37054,
-    27634,
-    27692,
-    39940,
-    40342,
-    38688,
-    42848,
-    42927,
-    58127,
-    53679,
-    53953,
-    51891,
-    52113,
-    52165,
-    48011,
-    46147,
-    46663,
-    51477,
-    53077,
-    56431,
-    30561,
-    30589,
-    23202,
-    24894,
-    28639,
-    31471,
-    31499,
-    31647,
-    96499,
-    61929,
-    62441,
-    85589,
-    85631,
-    85907,
-    72779,
-    71545,
-    71725,
-    80869,
-    80887,
-    67962,
-    68320,
-    67702,
-    65916,
-    65968,
-    66924,
-    87255,
-    17858,
-    28349,
-    30009,
-    30171,
-    53957,
-    54341,
-    55351,
-    55613,
-    61325,
-    65356,
-    60481,
-    60535,
-    39732,
-    45779,
-    45885,
-    43933,
-    42436,
-    46501,
-    53273,
-    48737,
-    52405,
-    52555,
-    70694,
-    65908,
-    65986,
-    70861,
-    68578,
-    970,
-    32531,
-    33073,
-    30479,
-    29871,
-    29945,
-    31077,
-    31207,
-    25686,
-    29703,
-    26313,
-    26551,
-    37052,
-    34901,
-    72139,
-    71525,
-    71537,
-    71551,
-    70208,
-    70282,
-    80893,
-    12715,
-    5810,
-    6299,
-    16229,
-    15517,
-    15528,
-    15184,
-    19473,
-    19619,
-    19652,
-    18746,
-    18823,
-    19856,
-    19862,
-    20134,
-    20433,
-    20983,
-    21507,
-    20563,
-    24546,
-    24562,
-    24841,
-    24915,
-    24996,
-    25137,
-    25243,
-    23846,
-    22326,
-    24281,
-    24369,
-    85597,
-    12301,
-    4009,
-    2671,
-    5807,
-    18708,
-    16635,
-    18119,
-    16561,
-    22362,
-    22405,
-    25136,
-    25301,
-    23249,
-    26354,
-    28699,
-    28831,
-    29081,
-    28567,
-    28621,
-    27399,
-    29881,
-    32585,
-    32677,
-    32757,
-    31982,
-    32897,
-    17780,
-    20801,
-    19770,
-    20130,
-    21354,
-    19492,
-    19653,
-    19293,
-    37520,
-    7970,
-    9242,
-    6170,
-    10748,
-    6825,
-    10949,
-    15596,
-    15245,
-    58479,
-    43005,
-    43015,
-    48281,
-    71517,
-    71543,
-    70897,
-    68532,
-    62027,
-    62998,
-    65912,
-    65924,
-    64016,
-    68324,
-    50397,
-    53561,
-    54171,
-    54343,
-    55393,
-    55799,
-    49407,
-    53159,
-    56057,
-    56091,
-    80865,
-    80875,
-    80973,
-    3497,
-    4028,
-    106599,
-    27568,
-    29407,
-    29483,
-    28705,
-    28987,
-    29999,
-    30149,
-    30175,
-    30995,
-    31295,
-    28385,
-    28637,
-    30513,
-    30553,
-    30595,
-    25386,
-    29613,
-    29647,
-    53081,
-    53171,
-    48435,
-    48443,
-    50079,
-    50221,
-    31581,
-    32301,
-    32733,
-    37952,
-    35435,
-    33127,
-    44387,
-    44635,
-    39814,
-    46377,
-    46483,
-    38896,
-    39094,
-    39294,
-    43649,
-    42800,
-    42915,
-    43247,
-    42416,
-    58637,
-    55543,
-    5809,
-    4282,
-    10946,
-    9996,
-    6988,
-    12430,
-    11640,
-    15132,
-    16110,
-    15380,
-    23275,
-    23337,
-    20558,
-    20746,
-    21408,
-    22293,
-    22613,
-    16673,
-    18765,
-    26812,
-    27143,
-    23696,
-    24005,
-    24111,
-    24164,
-    24288,
-    24358,
-    26560,
-    25940,
-    72059,
-    71535,
-    71547,
-    59925,
-    60347,
-    62629,
-    56765,
-    57461,
-    80881,
-    80889,
-    66760,
-    65906,
-    65918,
-    69222,
-    98661,
-    107814,
-    108000,
-    108116,
-    109172,
-    24529,
-    24726,
-    24751,
-    24143,
-    24359,
-    24374,
-    26259,
-    26401,
-    23626,
-    23294,
-    21822,
-    19859,
-    23098,
-    23185,
-    22403,
-    22446,
-    32379,
-    32569,
-    36302,
-    85607,
-    80863,
-    80873,
-    2943,
-    4377,
-    5805,
-    10522,
-    10573,
-    10582,
-    9995,
-    5812,
-    5968,
-    7274,
-    8036,
-    11552,
-    13027,
-    13492,
-    12426,
-    17123,
-    15571,
-    17559,
-    17662,
-    19198,
-    18879,
-    18136,
-    44733,
-    43511,
-    49439,
-    49561,
-    50293,
-    53271,
-    51475,
-    46275,
-    29105,
-    31413,
-    27227,
-    29569,
-    29729,
-    29829,
-    29887,
-    29953,
-    31980,
-    31984,
-    62481,
-    60543,
-    60685,
-    62685,
-    65760,
-    65910,
-    65922,
-    70066,
-    68228,
-    67144,
-    75294,
-    71419,
-    71515,
-    71527,
-    4032
-];
-
 const MultipleItems = () => {
-    const [products, setProducts] = useState(DataAll); //[Response]);
-    const [election, setElection] = useState();
-    const [country, setCountry] = useState([]);
-    const [isChecked, setIsChecked] = useState(false);
+    const [products, setProducts] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
-    const [copyCode, setCopyCode] = useState('COPIAR CÓDIGO');
     const [dataCode, setDataCode] = useState({
         title: '',
         promotionId: '',
@@ -442,57 +24,34 @@ const MultipleItems = () => {
     });
     let [isOpen, setIsOpen] = useState(false)
 
-    const parameters = {
-        filters: {
-          advertiserIds: advertiserIds,
-          exclusiveOnly: false,
-          membership: 'joined',
-          regionCodes: ['MX', 'US', 'CA', 'GB', 'ES', 'AR', 'CH', 'CO', 'PE', 'AU', 'BR', 'CL', 'CZ', 'DK', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'],
-          status: 'active',
-          type: 'all'
-        },
-        pagination: {
-          page: 1
-        }
-    }
-
-    const requestOptions = {
-
-        method: 'POST',
-        headers: {
-            'mode': 'no-cors',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://api.awin.com',
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(parameters)
-    };
-
-    const getPromotions = async () => {
-		fetch(`${BASE_URL}/${publisherId}/promotions`, requestOptions)
-            .then((response) => {
-                if (response.ok) {
-                return response.json();
-                } else {
-                throw new Error("Error en la solicitud POST");
-                }
-            }).then((responseData) => {
-                setProducts(responseData);
-                console.log('response = ', responseData);
-            }).catch((error) => {
-                console.error(error);
+    const getPromotions = async (regionCode = '') => {
+        setLoading(true);
+        try {
+            const response = await fetch('/api/promotions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ regionCode }),
             });
-	};
 
-    //getPromotions();
+            if (!response.ok) {
+                throw new Error("Error al obtener las promociones");
+            }
 
-    const handleChange = (e:any) => {
-        setSearch(e.target.value)
-    }
-
-    const handleOnChange = () => {
-        setIsChecked(!isChecked);
+            const responseData = await response.json();
+            setProducts(responseData.data || []);
+        } catch (error) {
+            console.error(error);
+            setProducts([]); // Clear products on error
+        } finally {
+            setLoading(false);
+        }
     };
+
+    useEffect(() => {
+        getPromotions();
+    }, []);
 
     const results = !search ? products: products.filter((data) => data.title.toLowerCase().includes(search.toLocaleLowerCase()))
 
@@ -519,47 +78,41 @@ const MultipleItems = () => {
         logEvent(analytics!, params, {name: value});
     }
 
-    const onClickCopy = () => {
-        copy(dataCode.voucher.code);
-        setCopyCode('¡CÓDIGO COPIADO!')
-        onSaveLogEvent('brand_code', dataCode.voucher.code)
-    };
-
-    const goStore = () => {
-        onSaveLogEvent('go_store', dataCode.title)
-    }
-
-    const closeModal = () => {
-        setIsOpen(false)
-        copy('');
-        setCopyCode('COPIAR CÓDIGO')
-    }
-
     const openModal = () => {
         setIsOpen(true)
     }
 
     return (
         <>
-            <div className="bg-lightgrey py-8" id="blog-section">
-                <div className='mx-auto max-w-7xl sm:py-4 lg:px-8 '>
+            {loading ? (
+                <div className="text-center py-20">
+                    <p className="text-xl text-gray-500">Cargando cupones...</p>
+                </div>
+            ) : results.length === 0 ? (
+                <div className="text-center py-20">
+                    <p className="text-xl text-gray-500">No se encontraron cupones.</p>
+                </div>
+            ) : (
+                <div className="bg-lightgrey py-8" id="blog-section">
+                    <div className='mx-auto max-w-7xl sm:py-4 lg:px-8 '>
 
-                    <div className='blog-section-data grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-16 gap-x-16 lg:gap-x-32'>
-                        {results.map((item: any, i: any) => (
-                            <div key={i} style={{cursor:'pointer'}} className='bg-white rounded-3xl mt-16 pt-10 pl-8 pb-10 pr-6 shadow-xl group' onClick={() => {onClickDataCode(item)}}>
-                                <div className='blog-section-data center'>
-                                    <Image
-                                        src={`https://ui.awin.com/images/upload/merchant/profile/` + `${item?.advertiser?.id}` + '.png'}
-                                        alt={item.description}
-                                        width={100}
-                                        height={85} />
+                        <div className='blog-section-data grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-16 gap-x-16 lg:gap-x-32'>
+                            {results.map((item: any, i: any) => (
+                                <div key={i} style={{cursor:'pointer'}} className='bg-white rounded-3xl mt-16 pt-10 pl-8 pb-10 pr-6 shadow-xl group' onClick={() => {onClickDataCode(item)}}>
+                                    <div className='blog-section-data center'>
+                                        <Image
+                                            src={`https://ui.awin.com/images/upload/merchant/profile/` + `${item?.advertiser?.id}` + '.png'}
+                                            alt={item.description}
+                                            width={100}
+                                            height={85} />
+                                    </div>
                                 </div>
-                            </div>
 
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
