@@ -21,13 +21,11 @@ export async function POST(request: Request) {
 
         if (regionCode) {
             filters.regionCodes = [regionCode];
-        } else {
-            filters.regionCodes = ['MX', 'US', 'CA', 'GB', 'ES', 'AR', 'CH', 'CO', 'PE', 'AU', 'BR', 'CL', 'CZ', 'DK', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
         }
 
-        const parameters = {
-            filters: filters,
-            pagination: { page: 1 } // As per docs, only page is needed.
+        const parameters = { 
+            filters,
+            pagination: { page: 1 } // As per documentation
         };
 
         const requestOptions = {
